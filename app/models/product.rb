@@ -14,11 +14,5 @@ class Product < ApplicationRecord
     scope :best_deals, -> { order(discount: :desc).limit(3) }
 
 
-    
-
-    scope :active, -> { where(active: true) }
-
-
-
 
 end
