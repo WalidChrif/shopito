@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Top Sellers</h2>
+      <p class="text-muted">Experience the best of our products</p>
+    </div>
+    <div class="col-md-12 d-flex justify-content-center">
+      <% @top_sellers.each do |product| %>
+        <div class="col-md-3 mx-2">
+          <div class="card mb-3">
+            <div class="card-header">
+              <%= image_tag(product.image_url, class: "card-img-top", width: 150, height: 150) %>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.title %></h5>
+              <p class="card-text"><%= number_to_currency(product.price) %></p>
+              <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+              <%= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
+              <%= link_to "Buy", customer_product_path(product), method: :post, class: "btn btn-success btn-block" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>New Arrivals</h2>
+      <p class="text-muted">Discover the latest products</p>
+    </div>
+    <div class="col-md-12 d-flex justify-content-center">
+      <% @new_arrivals.each do |product| %>
+        <div class="col-md-3 mx-2">
+          <div class="card mb-3">
+            <div class="card-header">
+              <%= image_tag(product.image_url, class: "card-img-top", width: 150, height: 150) %>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.title %></h5>
+              <p class="card-text"><%= number_to_currency(product.price) %></p>
+              <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+              <%= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
+              <%= link_to "Buy", customer_product_path(product), method: :post, class: "btn btn-success btn-block" %>
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Best Deals</h2>
+      <p class="text-muted">Get the best deals on our products</p>
+    </div>
+    <div class="col-md-12 d-flex justify-content-center">
+      <% @best_deals.each do |product| %>
+        <div class="col-md-3 mx-2">
+          <div class="card mb-3">
+            <div class="card-header">
+              <%= image_tag(product.image_url, class: "card-img-top", width: 150, height: 150) %>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.title %></h5>
+              <p class="card-text"><%= number_to_currency(product.price) %></p>
+              <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+              <%= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
+              <%= link_to "Buy", customer_product_path(product), method: :post, class: "btn btn-success btn-block" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

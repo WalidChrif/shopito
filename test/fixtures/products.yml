@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  price: MyString
+  : 9.99
+  stock: 1
+  sales_count: 1
+  discount: 9.99
+
+two:
+  title: MyString
+  price: MyString
+  : 9.99
+  stock: 1
+  sales_count: 1
+  discount: 9.99
