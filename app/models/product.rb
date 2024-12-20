@@ -1,9 +1,24 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id          :integer          not null, primary key
+#  title       :string
+#  price       :decimal(, )
+#  stock       :integer
+#  image_url   :string
+#  sales_count :integer          default(0)
+#  discount    :decimal(, )      default(0.0)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  description :text
+#
 class Product < ApplicationRecord
 
-    def initialize(attributes = {})
-      super
-      self.sales_count ||= 0
-    end
+    # def initialize(attributes = {})
+    #   super
+    #   self.sales_count ||= 0
+    # end
 
     validates :title, presence: true
     validates :price, presence: true

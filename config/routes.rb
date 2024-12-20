@@ -10,5 +10,8 @@ Rails.application.routes.draw do
   namespace :customer do
     get 'products' => 'products#index', as: :products
     get 'products/:id' => 'products#show', as: :product
+    get 'checkout/:id' => 'checkout#show', as: :checkout
+    post 'place_order' => 'checkout#place_order', as: :place_order
+    get 'receipt/:id' => 'checkout#receipt', as: :receipt
   end
 end

@@ -15,10 +15,12 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title"><%= @product.title %></h4>
+          <p><%= @product.description %></p>
           <p class="card-text"><strong>Price:</strong> $<%= number_with_precision(@product.price, precision: 2) %></p>
           <p class="card-text"><strong>Stock:</strong> <%= @product.stock %></p>
         </div>
         <div class="card-footer d-flex justify-content-end">
+          <%= link_to "Buy", customer_checkout_path(@product), class: "btn btn-primary" %>
 
             
         </div>

@@ -1,19 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="#">Shopito</a>
+    <a class="navbar-brand" href="/">Shopito</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <%= link_to 'Home', '/', class: 'nav-link' %>
+          <%= link_to 'Home', root_path, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Products', '#', class: 'nav-link' %>
+          <%= link_to 'Products', products_path, class: 'nav-link' %>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto me-0">
+        <li class="nav-item">
+          <%= link_to 'Cart', '#', class: 'nav-link' %>
+        </li> 
         <% if %>
           <li class="nav-item">
             <%= link_to 'Profile', '#', class: 'nav-link' %>
@@ -22,8 +25,6 @@
             <%= link_to 'Sign Out', '#', data: { turbo_method: :delete }, class: 'nav-link' %>
           </li>
         <% end %>
-      </ul>
-      <ul class="navbar-nav ms-auto">
         <% unless %>
           <li class="nav-item">
             <%= link_to 'Sign In', '#', class: 'nav-link' %>

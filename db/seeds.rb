@@ -11,8 +11,8 @@
   
   
   
-  User.create(email: 'walid@gmail.com', password: 'walid12', role: 'user', first_name: 'Regular', last_name: 'User')
-  User.create(email: 'test@admin.com', password: 'admin12', role: 'admin', first_name: 'Admin', last_name: 'User')
-  User.create(email: 'test@user.com', password: 'user12', role: 'user', first_name: 'Regular', last_name: 'User')
+  # User.create(email: 'walid@gmail.com', password: 'walid12', role: 'user', first_name: 'Regular', last_name: 'User')
+  # User.create(email: 'test@admin.com', password: 'admin12', role: 'admin', first_name: 'Admin', last_name: 'User')
+  # User.create(email: 'test@user.com', password: 'user12', role: 'user', first_name: 'Regular', last_name: 'User')
   
   

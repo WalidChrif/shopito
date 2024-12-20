@@ -18,5 +18,13 @@
         "titleBar.inactiveBackground": "#330e2599",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#330e25"
+    "peacock.color": "#330e25",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "shopito",
+            "database": "${workspaceFolder:shopito}/storage/development.sqlite3"
+        }
+    ]
 }

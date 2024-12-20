@@ -14,9 +14,9 @@
             <div class="card-body">
               <h5 class="card-title"><%= product.title %></h5>
               <p class="card-text"><%= number_to_currency(product.price) %></p>
-              <%#= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+              <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
               <%#= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
-              <%#= link_to "Buy", customer_product_path(product), method: :post, class: "btn btn-success btn-block" %>
+              <%= link_to "Buy", customer_checkout_path(product), method: :get, class: "btn btn-success btn-block" %>
             </div>
           </div>
         </div>
