@@ -1,0 +1,60 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Shopping Cart</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% if @cart.nil? || @cart.empty? %>
+          <p>Your cart is empty.</p>
+        <% else %>
+        <tbody>
+          <% @cart.each do |product_id| %>
+            <% product = Product.find(product_id) %>
+            <tr>
+              <td><%= product.title %></td>
+              <td><%= product.id %></td>
+              <td><%= number_to_currency(product.price) %></td>
+              <td><%= number_to_currency(product.id * product.price) %></td>
+            <td>
+              <%= link_to "Add", customer_cart_path(product_id), method: :post, data: { turbo_method: :post }, class: "btn btn-success btn-sm px-3" %>
+              <%= link_to "Remove", customer_cart_path(product_id), method: :delete, data: { turbo_method: :delete }, class: "btn btn-danger btn-sm" %>
+            </td>
+            </tr>
+          <% end %>
+        </tbody>
+        <% end %>
+      </table>
+      <br>
+      <hr>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="text-right">Subtotal:</td>
+            <td class="text-right"><%= number_to_currency(@total_amount || 0) %></td>
+          </tr>
+          <tr>
+            <td class="text-right">Tax (10%):</td>
+            <td class="text-right"><%= number_to_currency((@total_amount || 0) * 0.1) %></td>
+          </tr>
+          <tr>
+            <td class="text-right">Total:</td>
+            <td class="text-right"><%= number_to_currency(@total_amount || 0 * 1.1) %></td>
+          </tr>
+          <tr>
+            <td class="text-right"></td>
+            <td class="text-right"><%= link_to "Proceed To Checkout", customer_cart_checkout_path, class: "btn btn-primary #{ @total_amount.blank? ? 'disabled' : '' }" %></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
