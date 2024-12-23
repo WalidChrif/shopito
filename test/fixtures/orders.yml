@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  totalItems: 1
+  totalPrice: 9.99
+  shippingAddress: MyString
+  orderItems: one
+
+two:
+  customer: two
+  totalItems: 1
+  totalPrice: 9.99
+  shippingAddress: MyString
+  orderItems: two
