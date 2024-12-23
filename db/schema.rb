@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_23_112536) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_23_140618) do
   create_table "customers", force: :cascade do |t|
     t.string "firstName"
     t.string "lastName"
     t.string "email"
     t.integer "orders_id", null: false
     t.string "address"
-    t.datetime "created_at", null: falsecl
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["orders_id"], name: "index_customers_on_orders_id"
   end
@@ -27,6 +27,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_112536) do
     t.integer "order_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price"
+    t.string "title"
+    t.decimal "discount"
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
