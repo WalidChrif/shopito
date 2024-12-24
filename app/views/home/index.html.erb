@@ -13,10 +13,12 @@
             </div>
             <div class="card-body">
               <h5 class="card-title"><%= product.title %></h5>
-              <p class="card-text"><%= number_to_currency(product.price) %></p>
-              <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
-              <%#= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
-              <%= link_to "Buy", customer_single_checkout_path(product), method: :get, class: "btn btn-success btn-block" %>
+              <p class="card-text"><%= number_to_currency(product.price, precision: 2) %></p>
+              <div class="d-flex">
+                <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary me-2", data: { turbo_method: :post } %>
+                <%= button_to "Add to Cart", customer_add_to_cart_path(product), class: "btn btn-success" %>
+              </div>
             </div>
           </div>
         </div>
@@ -38,11 +40,12 @@
             </div>
             <div class="card-body">
               <h5 class="card-title"><%= product.title %></h5>
-              <p class="card-text"><%= number_to_currency(product.price) %></p>
-              <%#= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
-              <%#= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
-              <%#= link_to "Buy", customer_product_path(product), method: :post, class: "btn btn-success btn-block" %>
-
+              <p class="card-text"><%= number_to_currency(product.price, precision: 2) %></p>
+              <div class="d-flex">
+                <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary me-2", data: { turbo_method: :post } %>
+                <%= button_to "Add to Cart", customer_add_to_cart_path(product), class: "btn btn-success" %>
+              </div>
             </div>
           </div>
         </div>
@@ -64,10 +67,12 @@
             </div>
             <div class="card-body">
               <h5 class="card-title"><%= product.title %></h5>
-              <p class="card-text"><%= number_to_currency(product.price) %></p>
-              <%#= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
-              <%#= link_to "Add to Cart", customer_cart_path(product), method: :post, class: "btn btn-primary btn-block" %>
-              <%#= link_to "Buy", customer_product_path(product), method: :post, class: "btn btn-success btn-block" %>
+              <p class="card-text"><%= number_to_currency(product.price, precision: 2) %></p>
+              <div class="d-flex">
+                <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
+                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary me-2", data: { turbo_method: :post } %>
+                <%= button_to "Add to Cart", customer_add_to_cart_path(product), class: "btn btn-success" %>
+              </div>
             </div>
           </div>
         </div>

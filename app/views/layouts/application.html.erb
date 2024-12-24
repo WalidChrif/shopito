@@ -27,6 +27,19 @@
 
   <body>
     <%= render 'layouts/partials/navbar' %>
+        <% if flash[:success] || flash[:error] %>
+      <div class="toast-container position-absolute top-0 end-0 p-3">
+        <div class="toast bg-<%= flash[:success] ? "success" : "danger" %> text-white" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto">Shopito</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            <%= flash[:success] || flash[:error] %>
+          </div>
+        </div>
+      </div>
+    <% end %>
       <div class="container mt-3">
         <% if notice %>
           <div class="alert alert-success alert-dismissible fade show" role="alert">

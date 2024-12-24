@@ -10,19 +10,23 @@
     <div class="col-md-4">
       <img src="<%= @product.image_url %>" class="img-fluid rounded" alt="<%= @product.title %>">
     </div>
-    
+
     <div class="col-md-8">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title"><%= @product.title %></h4>
-          <p><%= @product.description %></p>
-          <p class="card-text"><strong>Price:</strong> $<%= number_with_precision(@product.price, precision: 2) %></p>
-          <p class="card-text"><strong>Stock:</strong> <%= @product.stock %></p>
+          <p class="card-text"><%= @product.description %></p>
+          <p class="card-text">
+            <strong>Price:</strong> $<%= number_with_precision(@product.price, precision: 2) %>
+          </p>
+          <p class="card-text">
+            <strong>Stock:</strong> <%= @product.stock %>
+          </p>
         </div>
         <div class="card-footer d-flex justify-content-end">
           <% if @product.stock > 0 %>
-          <%= link_to "Buy", customer_single_checkout_path(@product), class: "btn btn-primary" %>
-            <%= button_to "Add to Cart", customer_add_to_cart_path(@product), class: "btn btn-success ms-2", method: :post %>
+            <%= link_to "Buy", customer_single_checkout_path(@product), class: "btn btn-primary", data: { turbo_method: :post } %>
+            <%= button_to "Add to Cart", customer_add_to_cart_path(@product), class: "btn btn-success ms-2" %>
           <% else %>
             <p class="text-danger">Out of Stock</p>
           <% end %>

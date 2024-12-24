@@ -1,74 +1,67 @@
 class Customer::CartController < ApplicationController
     def show
+      # session[:cart] = []
       @cart = session[:cart] ||= []
-      @order_items = @cart.map { |order_item_id| OrderItem.find_by(id: order_item_id) }.compact
-  
-      @order_items.each_with_index do |order_item, index|
-        puts "Index: #{index}, OrderItem ID: #{order_item.id}, Product: #{order_item.product.title}"
+      @order_items = @cart.map do |hash|
+        puts "hash[:item_id] #{hash['item_id']}, hash[:quantity] #{hash['quantity']}"
+        item = get_order_item(hash['item_id'], hash['quantity'])
+        puts "item.title: #{item.title}, item.price: #{item.price}, item.quantity: #{item.quantity}"
+        item
       end
-  
-      @total_items = @order_items.sum(&:quantity)
-      @total_amount = @order_items.sum { |order_item| order_item.product.price * order_item.quantity }
+      @total_amount = @cart.sum { |hash| get_price(hash['item_id']) * hash['quantity'] }
     end
   
     def add_to_cart
       @cart = session[:cart] ||= []
-  
-      product = Product.find_by(id: params[:id])
-      if product.nil?
-        flash[:error] = "Product not found."
-        redirect_back(fallback_location: cart_path)
-        return
-      end
-  
-      # Check if the product is already in the cart
-      order_item = @cart.map { |order_item_id| OrderItem.find_by(id: order_item_id) }.find { |item| item&.product_id == product.id }
-  
-      if order_item.present?
-        # Update quantity if the item already exists
-        order_item.increment!(:quantity)
-        flash[:success] = "#{order_item.product.title} quantity has been updated to #{order_item.quantity}."
+
+      item_hash = @cart.find { |hash| hash['item_id'] == params[:id] }
+      puts "item_hash: #{item_hash}"
+
+      if item_hash.present?
+        puts "order item already in cart"
+        item_hash['quantity'] += 1
       else
-        # Create a new OrderItem and add it to the cart
-        order_item = OrderItem.create(
-          product_id: product.id,
-          quantity: 1,
-          price: product.price,
-          title: product.title
-        )
-        @cart << order_item.id
-        flash[:success] = "#{product.title} has been added to your cart."
+        puts "order item not in cart"
+        @cart << { item_id: params[:id], quantity: 1 }
       end
   
       session[:cart] = @cart
-      redirect_back(fallback_location: cart_path)
+      redirect_back(fallback_location: customer_cart_path)
     end
   
     def remove_from_cart
       @cart = session[:cart] ||= []
   
       order_item_id = params[:order_item_id].to_i
-      order_item = OrderItem.find_by(id: order_item_id)
+      order_item = @cart.find { |order_item| order_item['item_id'] == order_item_id }
   
       if order_item
-        @cart.delete(order_item_id)
-        order_item.destroy
-        flash[:success] = "#{order_item.product.title} has been removed from your cart."
+        @cart.delete(order_item)
+        flash[:success] = "#{order_item['title']} has been removed from your cart."
       else
         flash[:error] = "Order item not found."
       end
   
       session[:cart] = @cart
-      redirect_to cart_path
+      redirect_to customer_cart_path
     end
 
-    def product_to_order_item(product)
+    def product_to_order_item(product, quantity)
       OrderItem.new(
-        product_id: product.id,
-        quantity: 1,
+        id: product.id,
+        quantity: quantity,
         price: product.price,
         title: product.title
       )
     end
+
+    def get_order_item id, quantity
+      order_item = product_to_order_item(Product.find(id), quantity)
+    end
+    def get_price id
+      item_price = Product.find(id).price
+    end
+
   end
-  
+  # flash[:notice] = "#{order_item.title} quantity has been updated to #{order_item.quantity}."
+  # flash[:notice] = "#{order_item.title} quantity has been added to your cart."

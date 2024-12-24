@@ -14,10 +14,7 @@ class Customer::CheckoutController < ApplicationController
     end
 
     def receipt
-        puts "params: #{params}"        
         @product = Product.find(params[:id])
-        puts "product.inspect: #{@product.inspect}"
-        puts "product: #{@product}"
     end
 
 end
