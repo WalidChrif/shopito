@@ -5,8 +5,6 @@ class Customer::CartController < ApplicationController
       @order_items = @cart.map do |hash|
         puts "hash[:item_id] #{hash['item_id']}, hash[:quantity] #{hash['quantity']}"
         item = get_order_item(hash['item_id'], hash['quantity'])
-        puts "item.title: #{item.title}, item.price: #{item.price}, item.quantity: #{item.quantity}"
-        item
       end
       @total_amount = @cart.sum { |hash| get_price(hash['item_id']) * hash['quantity'] }
     end
@@ -15,14 +13,13 @@ class Customer::CartController < ApplicationController
       @cart = session[:cart] ||= []
 
       item_hash = @cart.find { |hash| hash['item_id'] == params[:id] }
-      puts "item_hash: #{item_hash}"
 
       if item_hash.present?
-        puts "order item already in cart"
         item_hash['quantity'] += 1
+        flash[:notice] = "#{get_title(item_hash['item_id'])} quantity has been updated to #{item_hash['quantity']}."
       else
-        puts "order item not in cart"
         @cart << { item_id: params[:id], quantity: 1 }
+        flash[:notice] = "#{get_title(params[:id])} has been added to your cart."
       end
   
       session[:cart] = @cart
@@ -61,7 +58,8 @@ class Customer::CartController < ApplicationController
     def get_price id
       item_price = Product.find(id).price
     end
+    def get_title id
+      item_title = Product.find(id).title
+    end
 
   end
-  # flash[:notice] = "#{order_item.title} quantity has been updated to #{order_item.quantity}."
-  # flash[:notice] = "#{order_item.title} quantity has been added to your cart."
