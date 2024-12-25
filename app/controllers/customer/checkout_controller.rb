@@ -11,17 +11,17 @@ class Customer::CheckoutController < ApplicationController
         if Customer.find_by(email: params[:email]).present?
             customer = Customer.find_by(email: params[:email])
         else
-            customer = Customer.new(firstName: params[:firstName], lastName: params[:lastName], address: params[:address], email: params[:email])
+            customer = Customer.new(first_name: params[:first_name], last_name: params[:last_name], address: params[:address], email: params[:email])
         end
         customer.save
-        order = Order.new(customer_id: customer.id, totalItems: @cart.sum { |item| item['quantity'] }, totalPrice: @total_price, shippingAddress: params[:address])
+        order = Order.new(customer_id: customer.id, total_items: @cart.sum { |item| item['quantity'] }, total_price: @total_price, shipping_address: params[:address])
         @cart.each do |item|
             item_price = Product.find(item['item_id']).price
             item_title = Product.find(item['item_id']).title
             order_item = OrderItem.new( quantity: item['quantity'], price: item_price, title: item_title, order_id: order.id)
             Product.find(item['item_id']).update(stock: Product.find(item['item_id']).stock - item['quantity'])
             order_item.save
-            order.orderItems << order_item
+            order.order_items << order_item
         end
         if order.save  
             redirect_to customer_receipt_path(order), notice: "Order placed successfully"
@@ -32,13 +32,13 @@ class Customer::CheckoutController < ApplicationController
 
     def receipt
         @order = Order.find(params[:id])
-        @order_items = @order.orderItems
+        @order_items = @order.order_items
         session[:cart] = []
     end
 
     def print_receipt
         @order = Order.find(params[:id])
-        @order_items = @order.orderItems
+        @order_items = @order.order_items
         respond_to do |format|
             format.html
             format.pdf do

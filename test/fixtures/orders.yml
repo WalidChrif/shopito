@@ -2,14 +2,14 @@
 
 one:
   customer: one
-  totalItems: 1
-  totalPrice: 9.99
-  shippingAddress: MyString
+  total_items: 1
+  total_price: 9.99
+  shipping_address: MyString
   orderItems: one
 
 two:
   customer: two
-  totalItems: 1
-  totalPrice: 9.99
-  shippingAddress: MyString
+  total_items: 1
+  total_price: 9.99
+  shipping_address: MyString
   orderItems: two

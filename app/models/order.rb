@@ -4,9 +4,9 @@
 #
 #  id              :uuid             not null, primary key
 #  customer_id     :uuid             not null
-#  totalItems      :integer          default(0), not null
-#  totalPrice      :decimal(, )      default(0.0), not null
-#  shippingAddress :string
+#  total_items      :integer          default(0), not null
+#  total_price      :decimal(, )      default(0.0), not null
+#  shipping_address :string
 #  orderItems_id   :uuid             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -14,6 +14,6 @@
 class Order < ApplicationRecord
   
   belongs_to :customer, optional: true
-  has_many :orderItems, dependent: :destroy
+  has_many :order_items, dependent: :destroy
 
 end

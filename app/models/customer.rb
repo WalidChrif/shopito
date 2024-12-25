@@ -3,8 +3,8 @@
 # Table name: customers
 #
 #  id         :uuid             not null, primary key
-#  firstName  :string
-#  lastName   :string
+#  first_name  :string
+#  last_name   :string
 #  email      :string
 #  address    :string
 #  orders_id  :uuid             not null
