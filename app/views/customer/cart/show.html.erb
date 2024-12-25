@@ -13,9 +13,11 @@
           </tr>
         </thead>
         <% if @cart.nil? || @cart.empty? %>
+        <% puts "There are no items in the cart" %>
           <p>Your cart is empty.</p>
         <% else %>
         <tbody>
+          <% puts "There are items in the cart" %>
           <% @order_items.each do |order_item| %>
             <tr>
               <td><%= order_item.title %></td>
@@ -53,7 +55,7 @@
           </tr>
           <tr>
             <td class="text-right"></td>
-            <td class="text-right"><%= link_to "Proceed To Checkout", customer_cart_checkout_path, class: "btn btn-primary #{ @total_amount.blank? ? 'disabled' : '' }" %></td>
+            <td class="text-right"><%= link_to "Proceed To Checkout", customer_cart_checkout_path, class: "btn btn-primary #{ @total_amount <= 0 ? 'disabled' : '' }" %></td>
           </tr>
         </tbody>
       </table>

@@ -4,7 +4,6 @@
 #
 #  id         :uuid             not null, primary key
 #  order_id   :uuid             not null
-#  product_id :uuid             not null
 #  quantity   :integer          default(1), not null
 #  price      :decimal(, )
 #  title      :string

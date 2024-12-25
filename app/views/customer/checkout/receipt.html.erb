@@ -6,6 +6,7 @@
         <div class="card-body">
           <h4 class="card-title">Order Receipt</h4>
           <p class="card-text">Thank you for your order!</p>
+          <%= button_to "Print Receipt", customer_print_receipt_path(@order), class: "btn btn-primary", target: "_blank" %>
           <table class="table">
             <thead class="thead-light">
               <tr>
@@ -15,14 +16,102 @@
               </tr>
             </thead>
             <tbody>
+            <% @order_items.each do |order_item| %>
               <tr>
-                <td><%= @product.title %></td>
-                <td>5</td>
-                <td>$<%= number_with_precision(@product.price, precision: 2) %></td>
+                <td><%= order_item.title %></td>
+                <td><%= order_item.quantity %></td>
+                <td>$<%= number_with_precision(order_item.price * order_item.quantity, precision: 2) %></td>
+              </tr>
+            <% end %>
+              <tr>
+                <td colspan="2">Total</td>
+                <td>$<%= number_with_precision(@total_price, precision: 2) %></td>
+              </tr>
+              <tr>
+                <td colspan="2">Shipping Cost</td>
+                <td>$<%= number_with_precision(@shipping_cost || 0, precision: 2) %></td>
+              </tr>
+              <tr>
+                <td colspan="2">Subtotal</td>
+                <td>$<%= number_with_precision(@sub_total || 0, precision: 2) %></td>
+              </tr>
+              <tr>
+                <td colspan="2">Tax</td>
+                <td>$<%= number_with_precision(@tax || 0, precision: 2) %></td>
               </tr>
               <tr>
                 <td colspan="2">Total</td>
-                <td>$<%= number_with_precision(@product.price, precision: 2) %></td>
+                <td>$<%= number_with_precision(@total_price_with_tax || 0, precision: 2) %></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <h4 class="card-title">Order Information</h4>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Order ID</td>
+                <td><%= @order.try(:id) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Order Date</td>
+                <td><%= @order.try(:created_at).try(:strftime, "%d-%m-%Y %H:%M") || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Order Status</td>
+                <td><%= @order.try(:status) || 'N/A' %></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <h4 class="card-title">Customer Information</h4>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Customer Fisrt Name</td>
+                <td><%= @order.customer.try(:firstName) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Customer Last Name</td>
+                <td><%= @order.customer.try(:last_name) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Customer Email</td>
+                <td><%= @order.customer.try(:email) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Customer Phone</td>
+                <td><%= @order.customer.try(:phone_number) || 'N/A' %></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <h4 class="card-title">Order Address</h4>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Address Line 1</td>
+                <td><%= @order.try(:address_line_1) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Address Line 2</td>
+                <td><%=try(:address_line_2) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>City</td>
+                <td><%= @order.try(:city) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>State</td>
+                <td><%= @order.try(:state) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Zip Code</td>
+                <td><%= @order.try(:zip_code) || 'N/A' %></td>
+              </tr>
+              <tr>
+                <td>Country</td>
+                <td><%= @order.try(:country) || 'N/A' %></td>
               </tr>
             </tbody>
           </table>
