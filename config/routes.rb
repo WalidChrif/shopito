@@ -21,6 +21,11 @@ Rails.application.routes.draw do
     post 'add_to_cart/:id' => 'cart#add_to_cart', as: :add_to_cart
     delete 'remove_from_cart' => 'cart#remove_from_cart', as: :remove_from_cart #not ready yet
     post 'print_receipt/:id' => 'checkout#print_receipt', as: :print_receipt
+  end
 
+  namespace :seller do
+    root to: "products#dashboard", as: :root
+    get 'dashboard' => 'products#dashboard', as: :dashboard
+    get 'products' => 'products#index', as: :products
   end
 end

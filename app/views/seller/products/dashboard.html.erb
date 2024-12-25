@@ -1,0 +1,32 @@
+<div class="container my-5 py-5">
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <h1>Seller Dashboard</h1>
+    <p class="lead">Welcome, <%= @current_seller[:name] %></p>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Products</h5>
+          <p class="card-text"><%= @current_seller[:products].count %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Orders</h5>
+          <p class="card-text"><%= @current_seller[:orders].count %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Earnings</h5>
+          <p class="card-text">$<%= 1555 %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
