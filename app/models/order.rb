@@ -16,4 +16,12 @@ class Order < ApplicationRecord
   belongs_to :customer, optional: true
   has_many :order_items, dependent: :destroy
 
+  after_initialize :set_pending_status
+
+  private
+  def set_pending_status
+    self.status = "pending" if self.status.nil?
+  end
+  
+
 end

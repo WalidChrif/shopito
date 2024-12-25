@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_24_155922) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_25_104653) do
   create_table "customers", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -38,6 +38,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_24_155922) do
     t.string "shipping_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
