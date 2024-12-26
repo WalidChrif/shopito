@@ -25,6 +25,10 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: User.roles.keys }
 
 
+  after_initialize do
+    self.role ||= :customer
+  end
+
   def admin?
     role == 'admin'
   end
