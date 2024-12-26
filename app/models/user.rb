@@ -17,24 +17,8 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :email, :password, presence: true
   validates :email, uniqueness: true
-  enum role: { customer: 0, seller: 1, admin: 2 }
-  
-  validates :role, inclusion: { in: roles }
-
-
-  def full_name
-    "#{first_name} #{last_name}"
-  end
-  def admin?
-    role == "admin"
-  end
-  def customer?
-    role == "customer"
-  end
-  def seller?
-    role == "seller"
-  end
-   
+  enum :role, { customer: 0, seller: 1, admin: 2 }  # Note the :role symbol before the hash
+  validates :role, inclusion: { in: User.roles.keys }
 
   
 

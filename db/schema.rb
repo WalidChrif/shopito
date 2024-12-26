@@ -61,9 +61,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_26_095935) do
     t.string "last_name"
     t.string "email"
     t.string "password"
+    t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "role"
   end
 
   add_foreign_key "order_items", "orders"
