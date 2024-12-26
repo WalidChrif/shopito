@@ -21,6 +21,9 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: User.roles.keys }
 
   
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 
 
 end

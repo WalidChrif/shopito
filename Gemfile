@@ -62,3 +62,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
+
+gem "trestle", "~> 0.10.1"
