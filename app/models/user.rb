@@ -17,10 +17,10 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :email, :password, presence: true
   validates :email, uniqueness: true
+  enum role: { customer: 0, seller: 1, admin: 2 }
   
   validates :role, inclusion: { in: roles }
 
-  enum role: { customer: 0, seller: 1, admin: 2 }
 
   def full_name
     "#{first_name} #{last_name}"
