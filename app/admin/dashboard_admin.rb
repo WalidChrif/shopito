@@ -5,7 +5,7 @@ Trestle.admin(:dashboard) do
   
     controller do
       def index
-        @orders = Order.all
+        @recent_orders = Order.order(created_at: :desc).limit(5)
         @total_earnings = Order.sum(:total_price)
         # @total_revenue = Order.sum(:total_price)
         @total_revenue = Product.sum('price * sales_count')
@@ -14,7 +14,10 @@ Trestle.admin(:dashboard) do
         @total_users = User.count
         @total_sales = Product.sum(:sales_count)
         @customers = Customer.all
+        @recent_customers = Customer.order(created_at: :desc).limit(5)
         @products = Product.all
+        @best_sellers = Product.order(sales_count: :desc).limit(5)
+        @latest_products = Product.order(created_at: :desc).limit(5)
         @admins = User.where(role: :admin)
         # Add more statistics as needed
       end

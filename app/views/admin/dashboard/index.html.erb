@@ -4,7 +4,7 @@
   <hr class="my-4">
   <div class="row">
     <!-- Stats Cards -->
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card text-white bg-primary mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Orders</h5>
@@ -13,7 +13,7 @@
       </div>
     </div>
     
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card text-white bg-success mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Revenue</h5>
@@ -21,27 +21,19 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card text-white bg-info mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
-          <h2><%= @total_products %></h2>
+          <h2><%= Product.count %></h2>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card text-white bg-warning mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Customers</h5>
-          <h2><%= @total_customers %></h2>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card text-white bg-danger mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Total Admins</h5>
-          <h2><%= @total_admins %></h2>
+          <h2><%= Customer.count %></h2>
         </div>
       </div>
     </div>
@@ -64,7 +56,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @orders.each do |order| %>
+          <% @recent_orders.each do |order| %>
             <tr>
               <td>#<%= order.id %></td>
               <td><%= order.customer.try(:first_name) %></td>
@@ -97,7 +89,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @customers.each do |customer| %>
+          <% @recent_customers.each do |customer| %>
             <tr>
               <td>#<%= customer.id %></td>
               <td><%= customer.first_name %> <%= customer.last_name %></td>
@@ -111,29 +103,32 @@
     </div>
   </div>
 
-  <!-- Recent Products Table -->
+  <!-- Latest Products Table -->
   <div class="card mt-4">
     <div class="card-header">
-      <h5>Recent Products</h5>
+      <h5>Latest Products</h5>
     </div>
     <div class="card-body">
       <table class="table table-striped">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Title</th>
             <th>Price</th>
-            <th>Quantity</th>
+            <th>Stock</th>
+            <th>Sales</th>
             <th>Category</th>
           </tr>
         </thead>
         <tbody>
-          <% @products.each do |product| %>
+          <%# @latest_products.each do |product| %>
+          <% @products.limit(5).each do |product| %>
             <tr>
               <td>#<%= product.id %></td>
               <td><%= product.title %></td>
               <td>$<%= number_with_precision(product.price, precision: 2) %></td>
               <td><%= product.stock %></td>
+              <td><%= product.sales_count %></td>
               <td><%= 'category' %></td>
             </tr>
           <% end %>
@@ -143,6 +138,7 @@
   </div>
 
   <!-- Recent Admins Table -->
+  <!--
   <div class="card mt-4">
     <div class="card-header">
       <h5>Recent Admins</h5>
@@ -168,4 +164,5 @@
       </table>
     </div>
   </div>
+  -->
 </div>
