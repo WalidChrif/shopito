@@ -20,6 +20,19 @@ class User < ApplicationRecord
   enum :role, { customer: 0, seller: 1, admin: 2 }  # Note the :role symbol before the hash
   validates :role, inclusion: { in: User.roles.keys }
 
+
+  def admin?
+    role == 'admin'
+  end
+
+  def seller?
+    role == 'seller'
+  end
+
+  def customer?
+    role == 'customer'
+  end
+
   
   def full_name
     "#{first_name} #{last_name}"
