@@ -20,6 +20,8 @@ class Product < ApplicationRecord
     #   self.sales_count ||= 0
     # end
 
+    belongs_to :user
+    
     validates :title, presence: true
     validates :price, presence: true
     validates :stock, presence: true
