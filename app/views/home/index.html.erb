@@ -16,7 +16,7 @@
               <p class="card-text"><%= number_to_currency(product.price, precision: 2) %></p>
               <div class="d-flex">
                 <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
-                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary me-2", data: { turbo_method: :post } %>
+                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary mx-2", data: { turbo_method: :post } %>
                 <%= button_to "Add to Cart", customer_add_to_cart_path(product), class: "btn btn-success" %>
               </div>
             </div>
@@ -43,7 +43,7 @@
               <p class="card-text"><%= number_to_currency(product.price, precision: 2) %></p>
               <div class="d-flex">
                 <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
-                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary me-2", data: { turbo_method: :post } %>
+                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary mx-2", data: { turbo_method: :post } %>
                 <%= button_to "Add to Cart", customer_add_to_cart_path(product), class: "btn btn-success" %>
               </div>
             </div>
@@ -70,7 +70,7 @@
               <p class="card-text"><%= number_to_currency(product.price, precision: 2) %></p>
               <div class="d-flex">
                 <%= link_to "View", customer_product_path(product), method: :get, class: "btn btn-light btn-block" %>
-                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary me-2", data: { turbo_method: :post } %>
+                <%= link_to "Buy", customer_single_checkout_path(product), class: "btn btn-primary mx-2", data: { turbo_method: :post } %>
                 <%= button_to "Add to Cart", customer_add_to_cart_path(product), class: "btn btn-success" %>
               </div>
             </div>

@@ -26,19 +26,22 @@ Trestle.resource(:customers) do
   collection do
     Customer.all
   end
+
+  before_action do
+    unless current_user.admin?
+      flash[:error] = "Administrator access required."
+      flash[:alert] = "Administrator access required."
+      flash[:warning] = "Administrator access required."
+      redirect_to root_path
+    end
+  end
+
   # authorization do
   #   # Allow sellers to only see their products
   #   false
   # end
    
 
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
   # params do |params|
   #   params.require(:customer).permit(:name, ...)
   # end

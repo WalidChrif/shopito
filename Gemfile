@@ -66,3 +66,5 @@ end
 gem "trestle", "~> 0.10.1"
 
 gem "devise", "~> 4.9"
+
+gem "trestle-auth", "~> 0.5.0"

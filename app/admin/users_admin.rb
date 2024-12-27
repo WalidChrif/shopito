@@ -23,6 +23,15 @@ Trestle.resource(:users) do
     select :role, User.roles.keys.map { |role| [role.titleize, role] }
   end
 
+  before_action do
+    unless current_user.admin?
+      flash[:error] = "Administrator access required."
+      flash[:alert] = "Administrator access required."
+      flash[:warning] = "Administrator access required."
+      redirect_to root_path
+    end
+  end
+
   # By default, all parameters passed to the update and create actions will be
   # permitted. If you do not have full trust in your users, you should explicitly
   # define the list of permitted parameters.

@@ -2,18 +2,7 @@ Trestle.configure do |config|
   # == Customization Options
   #
   # Set the page title shown in the main header within the admin.
-  #
-  # config.site_title = "Shopito"
-
-  # config.auth.user_class = -> { User }
-  
-  # config.auth.user_scope = -> { User.all }
-  
-  # # Define abilities for the user
-  # config.auth.authorize_with do |user|
-  #   # Add your authorization logic here
-  #   user.type == "Admin" || user.type == "Seller"
-  # end
+  config.site_title = "Shopito"
 
   # Specify a custom image to be used in place of the site title for mobile and
   # expanded/desktop navigation. These images should be placed within your
@@ -141,4 +130,84 @@ Trestle.configure do |config|
   # Enable debugging of form errors. Defaults to true in development mode.
   #
   # config.debug_form_errors = true
+
+  # == Authentication Options
+  #
+  # Set the authentication backend to use Devise.
+  #
+  config.auth.backend = :devise
+
+  # Specify the Devise/Warden mapping/scope.
+  #
+  config.auth.warden.scope = :user
+
+  # Specify the user class to be used by trestle-auth.
+  #
+  config.auth.user_class = -> { User }
+
+  # Specify the Trestle admin for managing the current user (My Account).
+  #
+  config.auth.user_admin = -> { :"auth/account" }
+
+  # Specify the parameter (along with a password) to be used to
+  # authenticate an administrator. Defaults to :email if not specified below.
+  #
+  config.auth.authenticate_with = -> { Devise.authentication_keys.first }
+
+  #-------------------------------------------------------------------------------------------- 
+  # config.auth.authorize_with do |user|
+  #   user.admin? || user.seller?
+  # end
+
+  # config.auth.authorize_resource do |user, resource|
+  #   case resource
+  #   when "products", "orders", "order_items", "dashboard",
+  #     user.admin? || user.seller?
+  #   when "customers", 
+  #     user.admin?
+  #   end
+  # end
+  # config.before_action do |_controller|
+  #   Rails.logger.info "Trestle before action: #{params.inspect}"
+  #   unless current_user.admin?
+  #     redirect_to '/'
+  #   end
+  # end
+  #-------------------------------------------------------------------------------------------- 
+
+  # Specify the redirect location after a successful login.
+  # Defaults to the main Trestle admin path.
+  #
+  # config.auth.redirect_on_login = -> {
+  #   if admin = Trestle.lookup(Trestle.config.auth.user_admin)
+  #     admin.instance_path(current_user)
+  #   else
+  #     Trestle.config.path
+  #   end
+  # }
+
+  # Specify the redirect location after logging out.
+  # Defaults to the trestle-auth new login path.
+  #
+  # config.auth.redirect_on_logout = -> { "/" }
+
+  # Enable or disable the built-in login/logout form and actions. Defaults to true.
+  #
+  # config.auth.enable_login = true
+  # config.auth.enable_logout = true
+
+  # Specify the path to redirect to when login is required.
+  # Defaults to the trestle-auth login page.
+  #
+  # config.auth.login_url = -> { "/users/sign_in" }
+
+  # Specify the logo used on the login form.
+  # If not specified, will fall back to config.site_logo,
+  # config.site_logo_small or config.site_title.
+  #
+  # config.auth.logo = "auth-logo.png"
+
+  # Enable or disable remember me functionality. Defaults to true.
+  #
+  # config.auth.remember.enabled = false
 end

@@ -8,7 +8,7 @@ Trestle.resource(:order_items) do
   table do
     column :id
     column :order
-    column :product
+    # column :product
     # column :order.customer
     column :title
     column :quantity
@@ -23,9 +23,16 @@ Trestle.resource(:order_items) do
   #
   form do |order_item|
     text_field :quantity
-    text_field :price
+    text_field :price, readonly: true
     text_field :title
     text_field :discount
+  end
+
+  before_action do
+    unless current_user.admin? || current_user.seller?
+      flash[:error] = "Administrator access required."
+      redirect_to root_path
+    end
   end
 
   # By default, all parameters passed to the update and create actions will be

@@ -330,6 +330,9 @@ GEM
       kaminari (>= 1.1.0)
       railties (>= 6.0.0)
       turbo-rails (>= 2.0.6)
+    trestle-auth (0.5.0)
+      bcrypt (~> 3.1.7)
+      trestle (~> 0.10.0)
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -382,6 +385,7 @@ DEPENDENCIES
   stimulus-rails
   thruster
   trestle (~> 0.10.1)
+  trestle-auth (~> 0.5.0)
   turbo-rails
   tzinfo-data
   web-console

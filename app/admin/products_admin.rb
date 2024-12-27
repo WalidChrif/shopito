@@ -28,7 +28,16 @@ Trestle.resource(:products) do
 
     # Add this to filter products
     collection do
-        Product.where(user_id: 3)
+        Product.where(user_id: current_user.id)
+    end
+
+    before_action do
+      unless current_user.admin? || current_user.seller?
+        flash[:error] = "Administrator access required."
+        flash[:alert] = "Administrator access required."
+        flash[:warning] = "Administrator access required."
+        redirect_to root_path
+      end
     end
 
   # By default, all parameters passed to the update and create actions will be

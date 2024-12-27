@@ -27,6 +27,9 @@
           
         <% else %>
           <li class="nav-item">
+            <%= link_to 'Cart', customer_cart_path, class: 'nav-link' %>
+          </li> 
+          <li class="nav-item">
             <%= link_to 'Sign In', new_user_session_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">

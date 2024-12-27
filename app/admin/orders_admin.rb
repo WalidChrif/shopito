@@ -7,7 +7,7 @@ Trestle.resource(:orders) do
   #
   table do
     column :id
-    column :customer_id
+    # column :customer_id, readonly: true
     column :status
     column :total_items
     column :total_price
@@ -19,13 +19,21 @@ Trestle.resource(:orders) do
   # Customize the form fields shown on the new/edit views.
   #
   form do |order|
-    text_field :customer_id
-    select_field :status
+    # text_field :customer_id
+    select :status, ["pending", "processing", "shipped", "delivered", "cancelled"]
     text_field :shipping_address
   end
 
   collection do
-    Order.joins(:order_items).where(order_items: { title: Product.where(user_id: 3).select(:title) }).distinct
+    puts "current_user.id #{current_user.id}"
+    Order.joins(:order_items).where(order_items: { title: Product.where(user_id: current_user.id).select(:title) }).distinct
+  end
+
+  before_action do
+    unless current_user.admin? || current_user.seller?
+      # flash[:error] = "Administrator access required."
+      redirect_to root_path
+    end
   end
 
   # By default, all parameters passed to the update and create actions will be
