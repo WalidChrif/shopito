@@ -145,6 +145,8 @@ Trestle.configure do |config|
   #
   config.auth.user_class = -> { User }
 
+  # config.auth.user_scope = -> { User.where(role: [:admin, :seller]) }
+
   # Specify the Trestle admin for managing the current user (My Account).
   #
   config.auth.user_admin = -> { :"auth/account" }
