@@ -26,26 +26,35 @@ end
     address: Faker::Address.street_address
   )
   
-  product = Product.all.sample
-  total_items = rand(1..10)
-  total_price = total_items * product.price
-  status = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'].sample
+  # Create an order with multiple different products
+  total_items = rand(1..5) # Reduce max items per order
+  products = Product.all.sample(total_items) # Get different random products
+  total_price = 0
   
   order = Order.create!(
     customer_id: customer.id,
     total_items: total_items,
-    total_price: total_price,
+    total_price: 0, # Will calculate after creating items
     shipping_address: customer.address,
-    status: status
+    status: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'].sample
   )
 
-  total_items.times do
+  # Create order items with different products
+  products.each do |product|
+    quantity = rand(1..3) # Random quantity for each product
+    item_price = product.price * quantity
+    total_price += item_price
+    
     OrderItem.create!(
       order_id: order.id,
       product_id: product.id,
-      quantity: 1,
+      quantity: quantity,
       price: product.price,
-      title: product.title
+      title: product.title,
+      discount: product.discount
     )
   end
+  
+  # Update order with correct total price
+  order.update!(total_price: total_price)
 end

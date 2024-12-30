@@ -34,14 +34,13 @@ Trestle.resource(:order_items) do
 
     end
   end
-
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
+  collection do 
+    if current_user.admin?
+      OrderItem.all
+    elsif current_user.seller?
+      OrderItem.where(product_id: Product.where(user_id: current_user.id).select(:id)).distinct
+    end
+  end
   # params do |params|
   #   params.require(:order_item).permit(:name, ...)
   # end

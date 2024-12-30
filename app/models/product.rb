@@ -18,6 +18,10 @@ class Product < ApplicationRecord
     after_initialize :set_sales_count
     
     private
+
+    def set_discount
+        self.discount = 0 if self.discount.nil?
+    end
     def set_sales_count
         self.sales_count = 0 if self.sales_count.nil?
     end
