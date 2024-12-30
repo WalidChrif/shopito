@@ -19,6 +19,7 @@ class Product < ApplicationRecord
     #   super
     #   self.sales_count ||= 0
     # end
+    
 
     belongs_to :user
     

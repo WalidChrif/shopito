@@ -25,24 +25,16 @@ Trestle.resource(:orders) do
   end
 
   collection do
-    puts "current_user.id #{current_user.id}"
     Order.joins(:order_items).where(order_items: { title: Product.where(user_id: current_user.id).select(:title) }).distinct
+    # Order.joins(:order_items).where(order_items: { id: Product.where(user_id: current_user.id).select(:id) }).distinct
   end
 
   before_action do
     unless current_user.admin? || current_user.seller?
-      # flash[:error] = "Administrator access required."
-      redirect_to root_path
+      redirect_to root_path, alert: "You have been redirected to the home page."
     end
   end
 
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
   # params do |params|
   #   params.require(:order).permit(:name, ...)
   # end

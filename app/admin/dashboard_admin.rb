@@ -2,6 +2,13 @@ Trestle.admin(:dashboard) do
     menu do
       item :dashboard, icon: "fa fa-home", priority: :first
     end
+
+    before_action do
+        unless current_user.seller? || current_user.admin?
+        #   flash[:error] = "You are not authorized to access this page."
+          redirect_to "/", alert: "You have been redirected to the home page."
+        end
+    end
   
     controller do
       def index
@@ -21,7 +28,7 @@ Trestle.admin(:dashboard) do
             @total_sales = Product.where(user_id: current_user.id).sum(:sales_count)
             @total_earnings = Product.where(user_id: current_user.id).sum('sales_count * price')
             @total_orders = Order.joins(:order_items).where(order_items: { id: Product.where(user_id: current_user.id).select(:id) }).count
-            @recent_orders = Order.joins(:order_items).where(order_items: { id: Product.where(user_id: current_user.id).select(:id) }).limit(5)
+            @recent_orders = Order.joins(:order_items).where(order_items: { title: Product.where(user_id: current_user.id).select(:title) }).distinct.limit(5)
             @products = Product.where(user_id: current_user.id)
             @total_products = Product.where(user_id: current_user.id).count
             @latest_products = Product.where(user_id: current_user.id).order(created_at: :desc).limit(5)
@@ -30,13 +37,6 @@ Trestle.admin(:dashboard) do
       end
     end
 
-
-    before_action do
-        unless current_user.seller? || current_user.admin?
-          flash[:error] = "You are not authorized to access this page."
-          redirect_to "/"
-        end
-    end
   
     breadcrumb do
       nil

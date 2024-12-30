@@ -30,8 +30,8 @@ Trestle.resource(:order_items) do
 
   before_action do
     unless current_user.admin? || current_user.seller?
-      flash[:error] = "Administrator access required."
-      redirect_to root_path
+      redirect_to root_path, alert: "You have been redirected to the home page."
+
     end
   end
 

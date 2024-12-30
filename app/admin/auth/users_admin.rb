@@ -1,7 +1,9 @@
 Trestle.resource(:users, model: User, scope: Auth) do
   menu do
-    group :configuration, priority: :last do
-      item :users, icon: "fas fa-users"
+    if current_user.admin?
+      group :configuration, priority: :last do
+        item :users, icon: "fas fa-users"
+      end
     end
   end
 
@@ -29,14 +31,11 @@ Trestle.resource(:users, model: User, scope: Auth) do
     end
   end
 
-  before_action do
-    unless current_user.admin?
-      flash[:error] = "Administrator access required."
-      flash[:alert] = "Administrator access required."
-      flash[:warning] = "Administrator access required."
-      redirect_to root_path
-    end
-  end
+  # before_action do
+  #   unless current_user.admin?
+  #     redirect_to root_path, alert: "You have been redirected to the home page."
+  #   end
+  # end
 
   # Ignore the password parameters if they are blank
   update_instance do |instance, attrs|

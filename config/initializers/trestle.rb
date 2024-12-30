@@ -155,6 +155,11 @@ Trestle.configure do |config|
   config.auth.authenticate_with = -> { Devise.authentication_keys.first }
 
   #-------------------------------------------------------------------------------------------- 
+
+  # config.auth.authenticate_with do |scope|
+  #   scope.find_by(role: ["admin", "seller"])
+  # end
+
   # config.auth.authorize_with do |user|
   #   user.admin? || user.seller?
   # end
@@ -167,6 +172,7 @@ Trestle.configure do |config|
   #     user.admin?
   #   end
   # end
+
   # config.before_action do |_controller|
   #   Rails.logger.info "Trestle before action: #{params.inspect}"
   #   unless current_user.admin?
