@@ -28,7 +28,11 @@ Trestle.resource(:products) do
 
     # Add this to filter products
     collection do
+      if current_user.admin?
+        Product.all
+      elsif current_user.seller?
         Product.where(user_id: current_user.id)
+      end
     end
 
     before_action do

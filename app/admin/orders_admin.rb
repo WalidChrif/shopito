@@ -25,8 +25,13 @@ Trestle.resource(:orders) do
   end
 
   collection do
-    Order.joins(:order_items).where(order_items: { title: Product.where(user_id: current_user.id).select(:title) }).distinct
+    if current_user.admin?
+      Order.all
+    elsif current_user.seller?
+    # Order.joins(:order_items).where(order_items: { title: Product.where(user_id: current_user.id).select(:title) }).distinct
     # Order.joins(:order_items).where(order_items: { id: Product.where(user_id: current_user.id).select(:id) }).distinct
+      Order.joins(:order_items).where(order_items: { product_id: Product.where(user_id: current_user.id).select(:id) }).distinct
+    end
   end
 
   before_action do

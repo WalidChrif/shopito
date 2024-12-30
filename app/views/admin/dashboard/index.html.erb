@@ -8,7 +8,7 @@
       <div class="card text-white bg-primary mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Orders</h5>
-          <h2><%= @total_sales %></h2>
+          <h2><%= @total_orders %></h2>
         </div>
       </div>
     </div>
@@ -25,7 +25,13 @@
       <div class="card text-white bg-info mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
-          <h2><%= Product.where(user_id: current_user.id).count %></h2>
+          <h2>
+          <% if current_user.admin? %>
+            <%= Product.count %>
+          <% else %>
+            <%= Product.where(user_id: current_user.id).count %>
+          <% end %>
+          </h2>
         </div>
       </div>
     </div>
@@ -33,7 +39,11 @@
       <div class="card text-white bg-warning mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Customers</h5>
-          <h2><%= Customer.joins(:orders => :order_items).where(order_items: { id: current_user.id }).distinct.count %></h2>
+          <h2><%if current_user.admin?%>
+            <%= Customer.count %>
+          <%else%>
+          <%= Customer.joins(orders: { order_items: :product }).where(products: { user_id: current_user.id }).distinct.count %></h2>
+          <%end%>
         </div>
       </div>
     </div>

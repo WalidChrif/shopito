@@ -15,11 +15,15 @@
 #
 class Product < ApplicationRecord
 
-    # def initialize(attributes = {})
-    #   super
-    #   self.sales_count ||= 0
-    # end
+    after_initialize :set_sales_count
     
+    private
+    def set_sales_count
+        self.sales_count = 0 if self.sales_count.nil?
+    end
+
+    has_many :order_items
+    has_many :orders, through: :order_items
 
     belongs_to :user
     
