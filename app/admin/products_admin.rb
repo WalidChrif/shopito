@@ -17,39 +17,44 @@ Trestle.resource(:products) do
   end
 
   # Customize the form fields shown on the new/edit views.
-  #
   form do |product|
     text_field :title
     text_field :price
     text_field :stock
     number_field :discount
-    # hidden_field :user_id, value: current_user.id
-    hidden_field :user, value: current_user
+    hidden_field :user_id, value: current_user.id if current_user
   end
 
-    # Add this to filter products
-    collection do
-      if current_user.admin?
-        Product.all
-      elsif current_user.seller?
-        Product.where(user_id: current_user.id)
-      end
+  # Add this to filter products
+  collection do
+    if current_user.admin?
+      Product.all
+    elsif current_user.seller?
+      Product.where(user_id: current_user.id)
+    end
+  end
+
+  # Ensure user is set before saving
+  # Ensure user is set before saving
+  controller do
+    def build_instance
+      instance = super
+      instance.user = current_user
+      instance
     end
 
-    # Set the user before creating the product
-    # controller do
-    #   def build_instance(params = {}, *args)
-    #     instance = super
-    #     instance.user = current_user
-    #     instance
-    #   end
-    # end
-
-    before_action do
-      unless current_user.admin? || current_user.seller?
-        redirect_to root_path, alert: "You have been redirected to the home page."
-      end
+    def update_instance(instance)
+      super
+      instance.user ||= current_user
+      instance
     end
+  end
+
+  before_action do
+    unless current_user && (current_user.admin? || current_user.seller?)
+      redirect_to root_path, alert: "You must be logged in as an admin or seller to manage products."
+    end
+  end
 
   params do |params|
     params.require(:product).permit(:title, :price, :stock, :discount)

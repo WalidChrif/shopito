@@ -8,27 +8,80 @@ class Customer::CheckoutController < ApplicationController
     end
 
     def place_order
-        if Customer.find_by(email: params[:email]).present?
-            customer = Customer.find_by(email: params[:email])
-        else
-            customer = Customer.new(first_name: params[:first_name], last_name: params[:last_name], address: params[:address], email: params[:email])
+        ActiveRecord::Base.transaction do
+          begin
+            # Find or create customer
+            customer = Customer.find_or_initialize_by(email: params[:email]) do |c|
+              c.first_name = params[:first_name]
+              c.last_name = params[:last_name]
+              c.address = params[:address]
+            end
+            
+            unless customer.save
+              flash[:error] = "Could not save customer information: #{customer.errors.full_messages.join(', ')}"
+              raise ActiveRecord::Rollback
+            end
+      
+            # Create order
+            order = Order.new(
+              customer_id: customer.id,
+              total_items: @cart.sum { |item| item['quantity'].to_i },
+              total_price: @total_price,
+              shipping_address: params[:address]
+            )
+      
+            # Pre-fetch all products to avoid multiple queries
+            product_ids = @cart.map { |item| item['item_id'] }
+            products = Product.where(id: product_ids).index_by(&:id)
+      
+            # Validate stock before processing
+            @cart.each do |item|
+              product = products[item['item_id'].to_i]
+              if product.nil?
+                flash[:error] = "Product not found"
+                raise ActiveRecord::Rollback
+              end
+              
+              if product.stock < item['quantity'].to_i
+                flash[:error] = "Not enough stock for #{product.title}"
+                raise ActiveRecord::Rollback
+              end
+            end
+      
+            # Process order items and update stock
+            @cart.each do |item|
+              product = products[item['item_id'].to_i]
+              quantity = item['quantity'].to_i
+              
+              order_item = order.order_items.build(
+                quantity: quantity,
+                price: product.price,
+                title: product.title,
+                product_id: product.id
+              )
+      
+              # Update product stock
+              product.update!(stock: product.stock - quantity)
+            end
+      
+            if order.save
+              # Clear cart after successful order
+              session[:cart] = []
+              redirect_to customer_receipt_path(order), notice: "Order placed successfully"
+            else
+              flash[:error] = "Could not create order: #{order.errors.full_messages.join(', ')}"
+              raise ActiveRecord::Rollback
+            end
+      
+          rescue StandardError => e
+            flash[:error] = "An error occurred while processing your order: #{e.message}"
+            raise ActiveRecord::Rollback
+          end
         end
-        customer.save
-        order = Order.new(customer_id: customer.id, total_items: @cart.sum { |item| item['quantity'] }, total_price: @total_price, shipping_address: params[:address])
-        @cart.each do |item|
-            item_price = Product.find(item['item_id']).price
-            item_title = Product.find(item['item_id']).title
-            order_item = OrderItem.new( quantity: item['quantity'], price: item_price, title: item_title, order_id: order.id)
-            Product.find(item['item_id']).update(stock: Product.find(item['item_id']).stock - item['quantity'])
-            order_item.save
-            order.order_items << order_item
-        end
-        if order.save  
-            redirect_to customer_receipt_path(order), notice: "Order placed successfully"
-        else
-            redirect_to customer_checkout_path, notice: "Order not placed"
-        end
-    end
+      
+        # If we get here, something went wrong
+        redirect_to customer_cart_checkout_path unless performed?
+      end
 
     def receipt
         @order = Order.find(params[:id])
