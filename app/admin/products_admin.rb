@@ -23,7 +23,8 @@ Trestle.resource(:products) do
     text_field :price
     text_field :stock
     number_field :discount
-
+    # hidden_field :user_id, value: current_user.id
+    hidden_field :user, value: current_user
   end
 
     # Add this to filter products
@@ -35,19 +36,21 @@ Trestle.resource(:products) do
       end
     end
 
+    # Set the user before creating the product
+    # controller do
+    #   def build_instance(params = {}, *args)
+    #     instance = super
+    #     instance.user = current_user
+    #     instance
+    #   end
+    # end
+
     before_action do
       unless current_user.admin? || current_user.seller?
         redirect_to root_path, alert: "You have been redirected to the home page."
       end
     end
 
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
   params do |params|
     params.require(:product).permit(:title, :price, :stock, :discount)
   end

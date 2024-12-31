@@ -22,19 +22,19 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_30_101913) do
 
   create_table "order_items", force: :cascade do |t|
     t.integer "quantity"
-    t.integer "order_id", null: false
+    t.bigint "order_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "price"
     t.string "title"
     t.decimal "discount"
-    t.integer "product_id", null: false
+    t.bigint "product_id", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "customer_id", null: false
+    t.bigint "customer_id", null: false
     t.integer "total_items"
     t.decimal "total_price"
     t.string "shipping_address"
@@ -54,7 +54,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_30_101913) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "image_url"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
