@@ -22,6 +22,8 @@ Trestle.resource(:products) do
     text_field :price
     text_field :stock
     number_field :discount
+    text_field :description
+    text_field :image_url
     hidden_field :user_id, value: current_user.id if current_user
   end
 
